@@ -1,10 +1,21 @@
 const languageSelector = document.querySelector("[data-language-selector]");
-const languageStatus = document.querySelector("[data-language-status]");
+const languageForm = document.querySelector("[data-language-form]");
+const languageSubmit = document.querySelector("[data-language-submit]");
 
-if (languageSelector && languageStatus) {
-  languageSelector.addEventListener("change", (event) => {
-    const selectedLanguage = event.target.value;
-    document.documentElement.lang = selectedLanguage;
-    languageStatus.textContent = `Language preference placeholder: ${selectedLanguage}`;
+if (languageSelector && languageForm) {
+  const navigateToSelectedLanguage = () => {
+    const target = new URL(window.location.href);
+    target.searchParams.set("lang", languageSelector.value);
+    window.location.assign(target.toString());
+  };
+
+  languageSelector.addEventListener("change", navigateToSelectedLanguage);
+  languageForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    navigateToSelectedLanguage();
   });
+
+  if (languageSubmit) {
+    languageSubmit.hidden = true;
+  }
 }

@@ -4,6 +4,8 @@ html {
   color-scheme: light;
   font-family: system-ui, sans-serif;
   line-height: 1.6;
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -13,6 +15,11 @@ body {
 }
 
 a { color: var(--color-accent); }
+
+img { display: block; max-width: 100%; }
+
+button,
+select { font: inherit; }
 
 a:focus-visible,
 button:focus-visible,
@@ -33,12 +40,28 @@ select:focus-visible {
   border-block: 1px solid var(--color-border);
 }
 
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
 .header-layout,
 .navigation-list {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-md);
+}
+
+.navigation-list a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.navigation-list a[aria-current="page"] {
+  color: var(--color-accent);
+  font-weight: 700;
 }
 
 .header-layout {
@@ -64,10 +87,22 @@ select:focus-visible {
   gap: var(--space-sm);
 }
 
+.language-control button,
+.language-control select {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.35rem;
+  padding: 0.35rem 0.55rem;
+}
+
+.language-control button { cursor: pointer; }
+
 .site-footer {
   margin-top: var(--space-xl);
   padding-block: var(--space-lg);
 }
+
+.site-footer p { margin: 0; }
 
 .skip-link {
   background: var(--color-text);
@@ -76,7 +111,7 @@ select:focus-visible {
   padding: var(--space-sm) var(--space-md);
   position: fixed;
   top: -5rem;
-  z-index: 10;
+  z-index: 100;
 }
 
 .skip-link:focus { top: var(--space-md); }
@@ -92,9 +127,13 @@ select:focus-visible {
 }
 
 @media (max-width: 40rem) {
+  html { scroll-padding-top: 12rem; }
+
   .header-layout {
     align-items: flex-start;
     flex-direction: column;
+    gap: var(--space-sm);
+    padding-block: var(--space-sm);
   }
 }
 

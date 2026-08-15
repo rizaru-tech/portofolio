@@ -1,16 +1,18 @@
 <!doctype html>
-<html lang="id">
+<html lang="{{ page_language|default('id') }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Fondasi website portofolio multilingual Rizal.">
+    <meta name="description" content="{% block meta_description %}Portfolio of Muhammad Rizal Muhaimin, Software Engineer.{% endblock %}">
     <title>{% block title %}Rizal Portfolio{% endblock %}</title>
+    {% block social_meta %}{% endblock %}
     <link rel="stylesheet" href="{{ url_for('shared.static', filename='shared/css/tokens.css') }}">
     <link rel="stylesheet" href="{{ url_for('shared.static', filename='shared/css/base.css') }}">
     {% block styles %}{% endblock %}
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
+    {% set shared_ui = ui|default({'skip': 'Lewati ke konten utama', 'footer': 'Muhammad Rizal Muhaimin — Software Engineer.'}) %}
+    <a class="skip-link" href="#main-content">{{ shared_ui.skip }}</a>
     {% block header %}{% include "shared/_navigation.html" %}{% endblock %}
     <main id="main-content" class="site-shell">
       {% block content %}{% endblock %}

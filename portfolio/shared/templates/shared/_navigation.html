@@ -1,22 +1,22 @@
 <header class="site-header">
   <div class="site-shell header-layout">
-    <a class="brand" href="{{ url_for('public_web.home') }}">Rizal Portfolio</a>
-    <nav aria-label="Navigasi utama">
+    <a class="brand" href="{{ localized_url('public_web.home', requested_language) }}">Rizal Portfolio</a>
+    <nav aria-label="{{ ui.nav_label }}">
       <ul class="navigation-list">
-        <li><a href="{{ url_for('public_web.home') }}">Home</a></li>
-        <li><a href="{{ url_for('public_web.projects') }}">Projects</a></li>
-        <li><a href="{{ url_for('public_web.cv') }}">CV</a></li>
-        <li><a href="{{ url_for('public_web.blog') }}">Blog</a></li>
+        <li><a href="{{ localized_url('public_web.home', requested_language) }}"{% if request.endpoint == 'public_web.home' %} aria-current="page"{% endif %}>{{ ui.nav_home }}</a></li>
+        <li><a href="{{ localized_url('public_web.projects', requested_language) }}"{% if request.endpoint == 'public_web.projects' %} aria-current="page"{% endif %}>{{ ui.nav_projects }}</a></li>
+        <li><a href="{{ localized_url('public_web.cv', requested_language) }}"{% if request.endpoint == 'public_web.cv' %} aria-current="page"{% endif %}>{{ ui.nav_cv }}</a></li>
+        <li><a href="{{ localized_url('public_web.blog', requested_language) }}"{% if request.endpoint == 'public_web.blog' %} aria-current="page"{% endif %}>{{ ui.nav_blog }}</a></li>
       </ul>
     </nav>
-    <div class="language-control">
-      <label for="language-selector">Bahasa</label>
-      <select id="language-selector" data-language-selector>
-        <option value="id">Indonesia</option>
-        <option value="en">English</option>
-        <option value="ja">日本語</option>
+    <form class="language-control" method="get" action="{{ request.path }}" data-language-form>
+      <label for="language-selector">{{ ui.language }}</label>
+      <select id="language-selector" name="lang" data-language-selector>
+        <option value="id"{% if requested_language == 'id' %} selected{% endif %}>Bahasa Indonesia</option>
+        <option value="en"{% if requested_language == 'en' %} selected{% endif %}>English</option>
+        <option value="ja"{% if requested_language == 'ja' %} selected{% endif %}>日本語</option>
       </select>
-      <span class="visually-hidden" data-language-status aria-live="polite"></span>
-    </div>
+      <button type="submit" data-language-submit>{{ ui.apply }}</button>
+    </form>
   </div>
 </header>

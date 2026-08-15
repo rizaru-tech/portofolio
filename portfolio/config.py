@@ -10,6 +10,11 @@ class BaseConfig:
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     STORAGE_ROOT = os.getenv("STORAGE_ROOT")
+    PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL")
+    PROFILE_IMAGE_URL = os.getenv("PROFILE_IMAGE_URL")
+    CV_URL = os.getenv("CV_URL")
+    CONTACT_URL = os.getenv("CONTACT_URL")
+    OG_IMAGE_URL = os.getenv("OG_IMAGE_URL")
     MAX_CONTENT_LENGTH = int(os.getenv("MAX_CONTENT_LENGTH", 16 * 1024 * 1024))
     SUPPORTED_LANGUAGES = ("id", "en", "ja")
     DEFAULT_LANGUAGE = "id"

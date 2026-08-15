@@ -1,6 +1,7 @@
 {% extends "shared/base.html" %}
 
 {% block title %}{{ page.title }} | Rizal Portfolio{% endblock %}
+{% block meta_description %}{{ page.summary }}{% endblock %}
 
 {% block styles %}
   <link rel="stylesheet" href="{{ url_for('public_web.static', filename='public/css/app.css') }}">
@@ -8,12 +9,11 @@
 
 {% block content %}
   <section class="page-introduction" aria-labelledby="page-title">
-    <p class="eyebrow">Foundation milestone</p>
     <h1 id="page-title">{{ page.heading }}</h1>
     <p>{{ page.summary }}</p>
   </section>
 {% endblock %}
 
 {% block scripts %}
-  <script src="{{ url_for('public_web.static', filename='public/js/app.js') }}" defer></script>
+  <script src="{{ url_for('public_web.static', filename='public/js/app.js', v=2) }}" defer></script>
 {% endblock %}

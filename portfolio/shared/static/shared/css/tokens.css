@@ -2,12 +2,19 @@
   --color-background: #f8fafc;
   --color-surface: #ffffff;
   --color-text: #172033;
+  --color-muted: #566176;
+  --color-navy: #101a33;
+  --color-soft: #edf3ff;
   --color-accent: #2457d6;
+  --color-accent-dark: #173d9a;
   --color-border: #ccd4e0;
   --focus-ring: #ffbf47;
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 3rem;
+  --space-2xl: 5rem;
+  --radius: 0.75rem;
+  --shadow: 0 1.25rem 3rem rgba(16, 26, 51, 0.1);
   --content-width: 72rem;
 }
