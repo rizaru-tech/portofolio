@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fondasi website portofolio multilingual Rizal.">
+    <title>{% block title %}Rizal Portfolio{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('shared.static', filename='shared/css/tokens.css') }}">
+    <link rel="stylesheet" href="{{ url_for('shared.static', filename='shared/css/base.css') }}">
+    {% block styles %}{% endblock %}
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
+    {% block header %}{% include "shared/_navigation.html" %}{% endblock %}
+    <main id="main-content" class="site-shell">
+      {% block content %}{% endblock %}
+    </main>
+    {% include "shared/_footer.html" %}
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

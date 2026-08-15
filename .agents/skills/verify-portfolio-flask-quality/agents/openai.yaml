@@ -1,0 +1,14 @@
+interface:
+  display_name: Portfolio Flask QA
+  short_description: Uji kualitas dan keamanan portofolio Flask
+  default_prompt: Use $verify-portfolio-flask-quality to create a risk-based test
+    plan for the next portfolio release.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

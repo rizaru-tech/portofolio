@@ -1,0 +1,14 @@
+interface:
+  display_name: Portfolio Deployment Support
+  short_description: Siapkan deployment dan dukungan operasional
+  default_prompt: Use $operate-portfolio-flask-deployment to prepare a safe release
+    and rollback runbook for the portfolio.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

@@ -1,0 +1,13 @@
+{% extends "shared/base.html" %}
+
+{% block title %}{{ status_code }} | Rizal Portfolio{% endblock %}
+
+{% block content %}
+  <section aria-labelledby="error-title">
+    <p class="eyebrow">Error {{ status_code }}</p>
+    <h1 id="error-title">{{ heading }}</h1>
+    <p>{{ message }}</p>
+    <p>Request ID: <code>{{ request_id }}</code></p>
+    <a href="{{ url_for('public_web.home') }}">Kembali ke Home</a>
+  </section>
+{% endblock %}

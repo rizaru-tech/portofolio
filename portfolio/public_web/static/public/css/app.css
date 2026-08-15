@@ -1,0 +1,12 @@
+.page-introduction {
+  max-width: 48rem;
+  padding-block: var(--space-xl);
+}
+
+.eyebrow {
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

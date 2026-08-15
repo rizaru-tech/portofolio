@@ -1,0 +1,14 @@
+interface:
+  display_name: Portfolio Flask Developer
+  short_description: Rancang dan bangun fitur portofolio Flask
+  default_prompt: Use $plan-portfolio-flask-development to plan the next portfolio
+    feature without overengineering.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

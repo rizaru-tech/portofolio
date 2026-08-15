@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rizal-portfolio"
+version = "0.1.0"
+description = "Multilingual Flask portfolio foundation"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "Flask>=3.1,<4",
+    "Flask-Migrate>=4,<5",
+    "Flask-SQLAlchemy>=3.1,<4",
+    "python-dotenv>=1,<2",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9"]
+
+[tool.setuptools.packages.find]
+include = ["portfolio*"]
+
+[tool.setuptools.package-data]
+portfolio = [
+    "**/templates/**/*.html",
+    "**/static/**/*.css",
+    "**/static/**/*.js",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
