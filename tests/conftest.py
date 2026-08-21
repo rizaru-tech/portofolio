@@ -1,17 +1,24 @@
 import pytest
 
 from portfolio import create_app
+from portfolio.extensions import db
 
 
 @pytest.fixture()
 def app(tmp_path):
-    return create_app(
+    application = create_app(
         "testing",
         {
             "SECRET_KEY": "testing-only",
             "STORAGE_ROOT": str(tmp_path / "storage"),
         },
     )
+    with application.app_context():
+        db.create_all()
+    yield application
+    with application.app_context():
+        db.session.remove()
+        db.drop_all()
 
 
 @pytest.fixture()

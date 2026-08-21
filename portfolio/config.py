@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from collections.abc import Mapping
+from datetime import timedelta
 from typing import Any
 
 
@@ -21,6 +22,19 @@ class BaseConfig:
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = False
+    SESSION_COOKIE_PATH = "/"
+    PERMANENT_SESSION_LIFETIME = timedelta(
+        seconds=int(os.getenv("AUTH_SESSION_LIFETIME_SECONDS", 8 * 60 * 60))
+    )
+    AUTH_SESSION_LIFETIME_SECONDS = int(
+        os.getenv("AUTH_SESSION_LIFETIME_SECONDS", 8 * 60 * 60)
+    )
+    LOGIN_RATE_LIMIT_MAX_ATTEMPTS = int(
+        os.getenv("LOGIN_RATE_LIMIT_MAX_ATTEMPTS", 5)
+    )
+    LOGIN_RATE_LIMIT_WINDOW_SECONDS = int(
+        os.getenv("LOGIN_RATE_LIMIT_WINDOW_SECONDS", 15 * 60)
+    )
     JSON_SORT_KEYS = False
 
 

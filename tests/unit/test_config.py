@@ -14,6 +14,10 @@ def test_testing_config_uses_isolated_in_memory_database(tmp_path):
     assert app.config["SUPPORTED_LANGUAGES"] == ("id", "en", "ja")
     assert app.config["DEFAULT_LANGUAGE"] == "id"
     assert app.config["MAX_CONTENT_LENGTH"] == 16 * 1024 * 1024
+    assert app.config["SESSION_COOKIE_HTTPONLY"] is True
+    assert app.config["SESSION_COOKIE_SAMESITE"] == "Lax"
+    assert app.config["SESSION_COOKIE_PATH"] == "/"
+    assert app.config["AUTH_SESSION_LIFETIME_SECONDS"] == 8 * 60 * 60
 
 
 def test_production_config_fails_closed_without_required_values():
@@ -26,3 +30,16 @@ def test_production_config_fails_closed_without_required_values():
                 "STORAGE_ROOT": None,
             },
         )
+
+
+def test_production_uses_secure_session_cookie(tmp_path):
+    app = create_app(
+        "production",
+        {
+            "SECRET_KEY": "production-test-only",
+            "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
+            "STORAGE_ROOT": str(tmp_path),
+        },
+    )
+
+    assert app.config["SESSION_COOKIE_SECURE"] is True

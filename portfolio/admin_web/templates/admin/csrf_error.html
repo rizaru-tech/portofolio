@@ -1,0 +1,19 @@
+{% extends "shared/base.html" %}
+
+{% block title %}{{ ui.login_heading }} | Rizal Portfolio{% endblock %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{{ url_for('admin_web.static', filename='admin/css/app.css') }}">
+{% endblock %}
+
+{% block header %}
+  <header class="admin-header"><div class="site-shell"><span class="brand">Rizal Portfolio Admin</span></div></header>
+{% endblock %}
+
+{% block content %}
+  <section class="auth-card" aria-labelledby="csrf-title">
+    <h1 id="csrf-title">{{ ui.login_heading }}</h1>
+    <p class="form-message form-message-error" role="alert">{{ ui.csrf_error }}</p>
+    <a href="{{ url_for('auth_web.login', lang=requested_language) }}">{{ ui.login }}</a>
+  </section>
+{% endblock %}

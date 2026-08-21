@@ -1,10 +1,124 @@
 .admin-header {
+  background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
   padding-block: var(--space-md);
 }
 
-.admin-notice {
-  border-left: 0.25rem solid var(--color-accent);
-  margin-block: var(--space-xl);
+.admin-header-layout,
+.dashboard-heading {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  justify-content: space-between;
+}
+
+.auth-page {
+  min-height: 100vh;
+}
+
+.auth-layout {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-md);
+  width: 100%;
+}
+
+.auth-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 32rem;
   padding: var(--space-lg);
+  width: 100%;
+}
+
+.auth-card .language-control { justify-content: flex-end; }
+
+.auth-card h1,
+.dashboard-heading h1 { margin-top: 0; }
+
+.auth-form {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.auth-form input {
+  border: 1px solid var(--color-border);
+  border-radius: 0.35rem;
+  font: inherit;
+  margin-bottom: var(--space-sm);
+  padding: 0.65rem 0.75rem;
+}
+
+.auth-form input:focus-visible {
+  outline: 0.2rem solid var(--focus-ring);
+  outline-offset: 0.15rem;
+}
+
+.primary-button,
+.secondary-button {
+  border: 1px solid var(--color-accent);
+  border-radius: 0.35rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.65rem 1rem;
+}
+
+.primary-button {
+  background: var(--color-accent);
+  color: white;
+}
+
+.secondary-button {
+  background: var(--color-surface);
+  color: var(--color-accent-dark);
+}
+
+.form-message {
+  background: var(--color-soft);
+  border-left: 0.25rem solid var(--color-accent);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.form-message-error {
+  border-left-color: #a51d2d;
+  color: #7c1521;
+}
+
+.dashboard-heading { margin-block: var(--space-xl) var(--space-lg); }
+
+.management-grid {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.management-grid li {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-lg);
+}
+
+.management-title,
+.management-note { display: block; }
+
+.management-title { font-weight: 800; }
+
+.management-note {
+  color: var(--color-muted);
+  margin-top: var(--space-sm);
+}
+
+@media (max-width: 40rem) {
+  .admin-header-layout,
+  .dashboard-heading { align-items: stretch; flex-direction: column; }
 }

@@ -2,7 +2,7 @@
 
 Fondasi website portofolio pribadi multilingual berbasis Flask. Proyek ini disiapkan untuk menampilkan Home, Projects, CV, dan Blog dalam bahasa Indonesia, Inggris, serta Jepang, dengan area admin yang akan dikembangkan secara bertahap.
 
-Status saat ini masih **Foundation/MVP awal**. Halaman publik dasar, boundary Admin/API, konfigurasi, migrasi, dan automated test sudah tersedia, tetapi autentikasi, CRUD konten, upload, serta translation database belum diimplementasikan.
+Status saat ini masih **Foundation/MVP awal**. Halaman publik dasar dan autentikasi Admin sudah tersedia. CRUD konten, upload, API key, serta translation database belum diimplementasikan.
 
 ## Teknologi
 
@@ -79,6 +79,9 @@ SECRET_KEY=
 DATABASE_URL=
 STORAGE_ROOT=
 MAX_CONTENT_LENGTH=16777216
+AUTH_SESSION_LIFETIME_SECONDS=28800
+LOGIN_RATE_LIMIT_MAX_ATTEMPTS=5
+LOGIN_RATE_LIMIT_WINDOW_SECONDS=900
 ```
 
 Keterangan:
@@ -88,6 +91,9 @@ Keterangan:
 - `DATABASE_URL`: kosong pada development untuk memakai `instance/portfolio.sqlite3`;
 - `STORAGE_ROOT`: kosong pada development untuk memakai folder `storage/`;
 - `MAX_CONTENT_LENGTH`: batas request/upload dalam byte, default 16 MiB.
+- `AUTH_SESSION_LIFETIME_SECONDS`: masa berlaku session Admin, default 8 jam;
+- `LOGIN_RATE_LIMIT_MAX_ATTEMPTS`: jumlah gagal login yang diizinkan dalam satu window, default 5;
+- `LOGIN_RATE_LIMIT_WINDOW_SECONDS`: panjang window rate limit login, default 15 menit.
 
 Untuk membuat secret development:
 
@@ -109,7 +115,7 @@ Buka:
 
 - Website: <http://127.0.0.1:5000/>
 - Health API: <http://127.0.0.1:5000/api/v1/public/health>
-- Admin placeholder: <http://127.0.0.1:5000/admin>
+- Login Admin: <http://127.0.0.1:5000/login> (diakses langsung, tidak ada di navigasi publik)
 
 Command alternatif untuk development interaktif:
 
@@ -127,9 +133,12 @@ python app.py
 | `GET` | `/projects` | Projects placeholder |
 | `GET` | `/cv` | CV placeholder |
 | `GET` | `/blog` | Blog placeholder |
-| `GET` | `/admin` | Admin placeholder; autentikasi belum tersedia |
+| `GET` | `/login` | Form login Admin |
+| `POST` | `/login` | Verifikasi credential dan membuat session baru |
+| `GET` | `/admin/dashboard` | Dashboard minimum; wajib session valid |
+| `POST` | `/logout` | Mencabut session backend dan menghapus cookie |
 | `GET` | `/api/v1/public/health` | Health response publik |
-| `GET` | `/api/v1/admin` | Status `501`; Admin API belum tersedia |
+| `GET` | `/api/v1/admin` | Wajib session valid; status `501` karena write API belum tersedia |
 
 Untuk melihat route map langsung:
 
@@ -139,7 +148,34 @@ python -m flask --app app routes
 
 ## Database dan migrasi
 
-Repository Flask-Migrate sudah tersedia di `migrations/`. Belum ada migration revision karena model bisnis belum dibuat.
+Revision `20260820_01` menambahkan `admin_user`, `auth_session`, dan `security_audit_event`. Jalankan migration sebelum membuat Admin:
+
+```powershell
+python -m flask --app app db upgrade
+```
+
+Migration tidak membuat credential default dan tidak menyimpan password.
+
+## Membuat Admin awal
+
+Setelah migration selesai, buat Admin melalui prompt tersembunyi (password tidak menjadi argumen CLI atau shell history):
+
+```powershell
+python -m flask --app app create-admin --email muhammadrizalm0109@gmail.com
+```
+
+Password minimum 12 karakter dan harus memuat huruf kecil, huruf besar, angka, serta simbol. Command menolak email duplikat tanpa menimpa hash existing.
+
+## Desain session Admin
+
+- Browser menyimpan raw session token hanya dalam cookie session Flask yang `HttpOnly`, `SameSite=Lax`, dan `Path=/`; mode production juga menetapkan `Secure`.
+- Database hanya menyimpan SHA-256 token, expiration, last-seen, dan waktu pencabutan.
+- Login membersihkan browser session sebelumnya, membuat token acak baru, dan mencabut token lama browser tersebut bila masih ada.
+- Session pada perangkat lain tetap aktif sampai logout dari perangkat itu, kedaluwarsa, Admin dinonaktifkan, atau dicabut oleh proses administratif di masa depan.
+- Login dan Dashboard mengirim `Cache-Control: no-store`; logout mencabut record backend lalu membuat cookie kedaluwarsa.
+- Rate limit menggunakan security audit records yang persisten pada database aplikasi, dihitung per hash alamat sumber; alamat lengkap dan credential tidak disimpan.
+
+Untuk membuat revision schema berikutnya:
 
 Setelah model pertama ditambahkan pada tahap berikutnya:
 
@@ -195,7 +231,7 @@ storage/        # media/CV runtime, diabaikan Git
 
 Belum tersedia:
 
-- login dan role Owner/Editor;
+- role Owner/Editor dan pengelolaan session lintas perangkat;
 - admin CRUD dan draft/publish;
 - data Projects, Blog, Home, navigation, dan CV;
 - translation database dan locale routing;
@@ -203,7 +239,7 @@ Belum tersedia:
 - API key management;
 - production WSGI server, container, atau deployment.
 
-Tahap berikutnya yang direkomendasikan adalah secure Home vertical slice: identity dasar, Home revision/translation, Editor draft, Owner publish, public published-only reads, CSRF, audit, rate limit, dan test keamanan terkait.
+Tahap berikutnya yang direkomendasikan adalah secure Home vertical slice: role/permission, Home revision/translation, Editor draft, Owner publish, public published-only reads, dan test keamanan terkait.
 
 ## Keamanan repository
 

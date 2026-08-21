@@ -145,6 +145,6 @@
 @media (max-width: 47.99rem) {
   .section { padding-block: var(--space-xl); }
   .hero { min-height: auto; }
-  .portrait-frame { max-width: 22rem; }
+  .portrait-frame { width: 100%; }
   .button { width: 100%; }
 }

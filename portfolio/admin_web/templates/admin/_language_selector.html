@@ -1,0 +1,10 @@
+<form class="language-control" method="get" action="{{ request.path }}">
+  <label for="admin-language-selector">{{ ui.language }}</label>
+  <select id="admin-language-selector" name="lang">
+    <option value="id"{% if requested_language == 'id' %} selected{% endif %}>Bahasa Indonesia</option>
+    <option value="en"{% if requested_language == 'en' %} selected{% endif %}>English</option>
+    <option value="ja"{% if requested_language == 'ja' %} selected{% endif %}>日本語</option>
+  </select>
+  {% if next_url %}<input type="hidden" name="next" value="{{ next_url }}">{% endif %}
+  <button type="submit">{{ ui.apply }}</button>
+</form>

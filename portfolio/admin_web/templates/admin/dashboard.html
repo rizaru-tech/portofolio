@@ -1,0 +1,41 @@
+{% extends "shared/base.html" %}
+
+{% block title %}{{ ui.dashboard }} | Rizal Portfolio{% endblock %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{{ url_for('admin_web.static', filename='admin/css/app.css') }}">
+{% endblock %}
+
+{% block header %}
+  <header class="admin-header">
+    <div class="site-shell admin-header-layout">
+      <span class="brand">Rizal Portfolio Admin</span>
+      {% include "admin/_language_selector.html" %}
+    </div>
+  </header>
+{% endblock %}
+
+{% block content %}
+  <section class="dashboard-heading" aria-labelledby="dashboard-title">
+    <div>
+      <h1 id="dashboard-title">{{ ui.dashboard }}</h1>
+      <p>{{ ui.signed_in_as }} <strong>{{ current_admin.email }}</strong></p>
+    </div>
+    <form method="post" action="{{ url_for('auth_web.logout') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="hidden" name="lang" value="{{ requested_language }}">
+      <button class="secondary-button" type="submit">{{ ui.logout }}</button>
+    </form>
+  </section>
+
+  <nav aria-label="{{ ui.management }}">
+    <ul class="management-grid">
+      {% for label in (ui.home_management, ui.project_management, ui.blog_management, ui.cv_management, ui.api_management) %}
+        <li>
+          <span class="management-title">{{ label }}</span>
+          <span class="management-note">{{ ui.placeholder }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+{% endblock %}

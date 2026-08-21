@@ -8,6 +8,7 @@ from typing import Any
 from flask import Flask
 
 from portfolio.config import CONFIG_BY_NAME, BaseConfig, ProductionConfig
+from portfolio.domains.identity_access.cli import register_identity_commands
 from portfolio.extensions import db, migrate
 from portfolio.shared.errors import register_error_handlers
 from portfolio.shared.request_context import register_request_context
@@ -44,6 +45,7 @@ def create_app(
     migrate.init_app(app, db)
 
     _register_blueprints(app)
+    register_identity_commands(app)
     register_request_context(app)
     register_security_headers(app)
     register_error_handlers(app)
@@ -74,7 +76,7 @@ def _configure_runtime_paths(app: Flask) -> None:
 
 
 def _register_blueprints(app: Flask) -> None:
-    from portfolio.admin_web import admin_web_bp
+    from portfolio.admin_web import admin_web_bp, auth_web_bp
     from portfolio.api.admin import admin_api_bp
     from portfolio.api.public import public_api_bp
     from portfolio.public_web import public_web_bp
@@ -83,5 +85,6 @@ def _register_blueprints(app: Flask) -> None:
     app.register_blueprint(shared_bp)
     app.register_blueprint(public_web_bp)
     app.register_blueprint(admin_web_bp)
+    app.register_blueprint(auth_web_bp)
     app.register_blueprint(public_api_bp)
     app.register_blueprint(admin_api_bp)
